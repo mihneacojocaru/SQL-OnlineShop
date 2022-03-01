@@ -13,17 +13,43 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
+
+  Orders.associate = (models)=>{
+
+    Orders.belongsTo(models.Orders,{
+      
+    })
+
+
+  }
+
   Orders.init({
     customer_id: DataTypes.INTEGER,
     ammount: DataTypes.INTEGER,
-    shipping_address: DataTypes.STRING,
-    order_address: DataTypes.STRING,
-    order_email: DataTypes.STRING,
-    order_date: DataTypes.DATE,
-    order_status: DataTypes.STRING
+    shipping_address: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    order_address: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    order_email: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    order_date: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    order_status: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
   }, {
     sequelize,
-    modelName: 'Orders',
+    createdAt: false,
+    updatedAt: false,
   });
   return Orders;
 };

@@ -14,13 +14,34 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Customers.init({
-    full_name: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    billing_address: DataTypes.STRING,
-    default_shipping_address: DataTypes.STRING,
-    country: DataTypes.STRING,
-    phone: DataTypes.STRING
+    full_name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    password: {
+      type: DataTypes.STRING(20),
+      allowNull: false
+    },
+    billing_address: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    default_shipping_address: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    country: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    phone: {
+      type: DataTypes.STRING(20),
+      allowNull: false
+    }
   }, {
     sequelize,
     modelName: 'Customers',
