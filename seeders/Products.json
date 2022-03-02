@@ -1,0 +1,18 @@
+[
+    {
+        "product_name":"T-Shirt",
+        "image_url":"website-goes-here",
+        "price":15,
+        "stock":150
+    },
+    {
+        "product_name":"Jeans",
+        "image_url":"website-goes-here",
+        "price":25,
+        "stock":328
+    },
+    {
+      "SQL": "update Products set id = 100 where id = 1;"
+    }
+
+]

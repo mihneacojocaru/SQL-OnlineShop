@@ -13,6 +13,7 @@ const express = require('express');
   app.use(cors());
 
   //app.use('/db/v1/1toN', dbRoute);
+  app.use('/db/v1/onlineStore', dbRoute);
 
   app.use((errMsg,req,res,next)=>{
     const err = new Error(errMsg);
@@ -30,7 +31,7 @@ const express = require('express');
   });
 
   app.listen({port}, async()=>{
-    console.log(`Server up on http://localhost:${port}`);
+    console.log(`Server up on http://localhost:${port}/`);
     await sequelize.sync();
     console.log('Database Connected!');
   });

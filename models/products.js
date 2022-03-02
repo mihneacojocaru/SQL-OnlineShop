@@ -32,6 +32,8 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     sequelize,
+    createdAt: false,
+    updatedAt: false,
   });
   return Products;
 };

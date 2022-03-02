@@ -1,0 +1,41 @@
+[
+  {
+    "full_name": "John Doe",
+    "email": "example@email.com",
+    "password": "testPassword",
+    "billing_address": "First Str. 123",
+    "default_shipping_address": "Default Str. 111",
+    "country": "USA",
+    "phone": "18331893147"
+  },
+  {
+    "full_name": "Gioce Kaunim",
+    "email": "gioce_k@email.com",
+    "password": "testPassword",
+    "billing_address": "0030 Pierstorff Lane",
+    "default_shipping_address": "0030 Pierstorff Lane",
+    "country": "USA",
+    "phone": "18331665154"
+  },
+  {
+    "full_name": "Corena Blay",
+    "email": "cblay0@photobucket.com",
+    "password": "testPassword",
+    "billing_address": "3212 Eliot Parkway",
+    "default_shipping_address": "3212 Eliot Parkway",
+    "country": "USA",
+    "phone": "18331856784"
+  },
+  {
+    "full_name": "Jennifer Isakson",
+    "email": "jisakson2@clickbank.net",
+    "password": "testPassword",
+    "billing_address": "124 Sheridan Center",
+    "default_shipping_address": "124 Sheridan Center",
+    "country": "USA",
+    "phone": "18356478326"
+  },
+  {
+    "SQL": "update Clients set id = 1000 where id = 1;"
+  }
+]

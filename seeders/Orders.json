@@ -1,0 +1,10 @@
+[
+    {
+        "customer_id":1003,
+        "ammount":2,
+        "order_status":"pending"
+    },
+    {
+      "SQL": "update Orders set id = 300 where id = 1;"
+    }
+]

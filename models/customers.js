@@ -44,7 +44,16 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'Customers',
+    createdAt: false,
+    updatedAt: false,
   });
+
+  Customers.associate=(models)=>{
+    Customers.hasMany(models.Orders,{
+      foreignKey:{
+        fieldName:'order_id',
+      }
+    });
+  }
   return Customers;
 };

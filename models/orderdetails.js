@@ -32,7 +32,28 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     sequelize,
-    modelName: 'OrderDetails',
+    createdAt: false,
+    updatedAt: false,
   });
+
+  OrderDetails.associate=(models)=>{
+    OrderDetails.belongsTo(models.Orders,{
+      as:'order_details_id',
+      foreignKey:{
+        fieldName:'order_id',
+        allowNull:false
+      },
+      onDelete:'Cascade'
+    })
+    OrderDetails.belongsTo(models.Products,{
+      foreignKey:{
+        fieldName:'product_id',
+        allowNull:false
+      },
+      onDelete:'Cascade'
+    })
+    
+  }
+
   return OrderDetails;
 };
