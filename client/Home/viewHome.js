@@ -1,14 +1,18 @@
 import Data from "../Data/data.js";
+import Helper from "../helpers.js";
 
 export default class ViewHome{
     
     constructor(){
         this.data = new Data();
         this.root = document.getElementById('root');
-        this.root.innerHTML += this.shoppingCart();
-        this.root.innerHTML += this.productsTable();
-        this.populateProductTable();
-        this.addToCart();
+        this.root.innerHTML += this.navbar();
+        this.root.innerHTML += this.aside();
+        this.root.innerHTML += this.main();
+        this.populateCardContainer();
+        this.shoppingCart();
+        this.addToLocalStorage();
+        this.populateCart();
     }
 
   
@@ -21,118 +25,187 @@ export default class ViewHome{
 
     //--- HTML FUNCTIONS
 
-    productsTable = () => {
+    navbar = () => {
+        return `<nav>
+        <h1>Online Shop &trade;</h1>
+                </nav>`;
+    }
+
+    aside = () => {
         return `
-        <div class="container-fluid">
-        <h2>Products</h2>
-        <table class="table table-hover">
-            <thead class="thead-dark">
-              <tr>
-                <th scope="col">Product Name</th>
-                <th scope="col">Image Url</th>
-                <th scope="col">Price</th>
-                <th scope="col">Stock</th>
-                <th scope="col"></th>
-              </tr>
-            </thead>
-            <tbody id="productsTable">
-            </tbody>
-          </table>
-        </div>
+        <aside>
+        <i id="cartToggleBtn" class="fa-solid fa-bag-shopping"></i>
+        <span class="logo">kz_</span>
+        <ul class="main-categories">
+            <li>ALL</li>
+            <li>Men's</li>
+            <li>Woman's</li>
+            <li>Kids</li>
+        </ul>
+        <ul class="second-categories">
+            <li>Our Journal</li>
+            <li>About Us</li>
+            <li>Help/FAQ</li>
+            <li>Get In Touch</li>
+            <li></li>
+            <li>Login</li>
+        </ul>
+    </aside>
+                `;
+    }
+
+    main = () => {
+        return `
+        <main>
+            <div class="shopping-cart hide-element"></div>
+            <div class="cover-img">
+                <img src="./Assets/Summer-Fashion-Facebook-Cover-Design-Template.jpeg" alt="fashion-cover">
+            </div>
+            <div class="content card-container">
+                <div class="card">
+                    <div class="image">
+                        <img src="https://cdn.shopify.com/s/files/1/0584/0617/4905/products/p4_1_420x.jpg?v=1625561220" alt="t-shirt picture">
+                    </div>
+                    <div class="info">
+                        <div class="left-item">
+                            <span>Name</span>
+                            <span>36€</span>
+                        </div>
+                        <div class="right-item">
+                            <button>Add to cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="image">
+                        <img src="https://cdn.shopify.com/s/files/1/0584/0617/4905/products/p5_1_840x.jpg?v=1625561212" alt="t-shirt picture">
+                    </div>
+                    <div class="info">
+                        <div class="left-item">
+                            <span>Name</span>
+                            <span>36€</span>
+                        </div>
+                        <div class="right-item">
+                            <button>Add to cart</button>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </main>
         `;
     }
 
-    productTableRow = (item) =>{
 
-        return `<tr data-value="${item.id}">
-        <td>${item.product_name}</td>
-        <td>${item.image_url}</td>
-        <td><span>${item.price}</span><span>€</span></td>
-        <td><span>${item.stock}</span><span> units</span></td>
-        <td><button id="btnToCart" class="btn btn-primary">Add to cart</button></td>
-        </tr>`;
-
+    card = (item) => {
+        return `
+        <div class="card">
+                    <div class="image">
+                        <img src="${item.image_url}" alt="t-shirt picture">
+                    </div>
+                    <div class="info">
+                        <div class="left-item">
+                            <span>${item.product_name}</span>
+                            <span>${item.price}€</span>
+                        </div>
+                        <div class="right-item">
+                            <button data-id="${item.id}" id="addToCart">Add to cart</button>
+                        </div>
+                    </div>
+                </div>
+        `;
     }
 
-    populateProductTable = async () => {
+    populateCardContainer = async () => {
+
+        let cardContainer = document.querySelector('.card-container');
+        cardContainer.innerHTML = "";
 
         const data = await this.getProducts();
-        const table = document.getElementById('productsTable');
 
-
-
-        data.forEach(element => {
-            table.innerHTML += this.productTableRow(element);
+        data.forEach( e => {
+            cardContainer.innerHTML += this.card(e);
         });
 
 
-        
     }
 
+    
     //--- Shopping Cart
 
     shoppingCart = () => {
-        return `<div class="container-fluid">
-        <h2>Shopping Cart</h2>
-        <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Product</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Price</th>
-                <th scope="col">TOTAL</th>
-              </tr>
-            </thead>
-            <tbody id="shoppingCart"></tbody>
-          </table>
-    </div>`;
+        let cart = document.querySelector('.shopping-cart');
+        let cartToggleBtn = document.querySelector('#cartToggleBtn');
+        cart.innerHTML += this.shoppingCartContent();
+        
+
+        cartToggleBtn.addEventListener('click', ()=> {
+            cart.classList.toggle('hide-element');
+        })
     }
 
-    shoppingCartItem = (item) => {
-        return `<tr>
-                    <td>${item.product_name}</td>
-                    <td>${item.quantity}</td>
-                    <td><span>${item.price}</span><span> €</span></td>
-                    <td></td>
-                </tr>`;
-    }
-
-    totalCart = (summ) => {
+    shoppingCartContent = () => {
         return `
-                <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td><span>${summ}</span><span> €</span></td>
-              </tr>
+                <span class="cart-item-no">1 product in your cart</span>
+                <div class="products cart-products"></div>
+                <div class="spacer"></div>
+                <div class="total-info">
+                    <span id="totalCart">Total: 0,00€</span>
+                    <span>Shipping & taxes are calculated at checkout</span>
+                    <button>Check Out</button>
+                </div>
         `;
     }
 
-    addToCart = () => {
 
+    miniCard = (item) => {
+        return `<div class="mini-card">
+        <img src="${item.image_url}" alt="t-shirt">
+        <div class="info-mini">
+            <div class="left-item-mini">
+                <span>${item.product_name}</span>
+                <span>${item.price*item.quantity}€</span>
+            </div>
+            <div class="right-item-mini">
+                <input min="1" value="${item.quantity}" type="number">
+                <span>X</span>
+            </div>
+        </div>
+    </div>`;
+    }
+
+    addToLocalStorage = () => {
         setTimeout(()=>{
-            
-            let btn = document.querySelectorAll('#btnToCart');
-
-            btn.forEach( e => {
+            let btnAddToCart = document.querySelectorAll('#addToCart');
+            btnAddToCart.forEach( e => {
                 e.addEventListener('click', this.eventHandler);
             });
-        }, 200);
-
+        },100);
     }
 
-    eventHandler = (e) => {
+    eventHandler = e => {
         let obj = e.target;
-        let item = {};
+        let item = {}
 
-        item.product_name = obj.parentElement.parentElement.children[0].textContent;
-        item.price = obj.parentElement.parentElement.children[2].children[0].textContent;
-        item.quantity = 1;
-        console.log(item)
-
-        let cart = document.getElementById('shoppingCart');
-        
-        cart.innerHTML += this.shoppingCartItem(item);
-
+        if(obj.type == 'submit'){
+            item.product_name = obj.parentElement.parentElement.children[0].children[0].textContent;
+            item.price = parseInt(obj.parentElement.parentElement.children[0].children[1].textContent.replace('€',''));
+            item.image_url = obj.parentElement.parentElement.parentElement.children[0].children[0].src; 
+            item.id = obj.dataset.id;
+            item.quantity = 1;
+            let helper = new Helper();
+            helper.addToCart(item);
+        }
     }
+
+    populateCart = () => {
+        let cart = document.querySelector('.cart-products');
+        const helper = new Helper();
+        helper.list.forEach( e => {
+            cart.innerHTML += this.miniCard(e);
+        });
+    }
+
+
+    
 }

@@ -1,0 +1,89 @@
+aside{
+    position: relative;
+    grid-area: sidebar;
+    min-height: calc(100vh - 82px);
+    max-height: calc(100vh - 82px);
+    overflow: scroll;
+    background-color: #fff;
+    border-right: 1px solid $gray-line;
+    
+    font-family: $font-sidebar;
+
+    i{
+        position: relative;
+        font-size: 45px;
+        margin-left: auto;
+        padding: .5em 1em 0 0;
+        cursor: pointer;
+        &::after{
+            position: absolute;
+            font-size: 16px;
+            font-family: sans-serif;
+            content: "1";
+            color: #fff;
+            left: 15px;
+            // for 2digits 11px
+            top: 48px;
+
+        }
+    }
+
+    .logo{
+        font-family: $font-logo;
+        color: $main-red;
+        font-size: 60px;
+        padding: 0  0 0 .6em;
+        cursor: pointer;
+    }
+
+    .main-categories{
+        padding: 2em 0 0 2em;
+        li{
+            font-size: 1.5em;
+            padding: .6em 0;
+            cursor: pointer;
+            &:hover{
+                
+                 color: $main-red;
+                // text-decoration: underline; 
+            }
+        }
+
+        li:after {
+            content: '';
+            display: block;
+            height: 1px;
+            width: 0;
+            background: transparent;
+            transition: width .3s ease, background-color .3s ease;
+        }
+        li:hover:after {
+            width: 100%;
+            background: $main-red;
+        }
+    }
+
+    .second-categories{
+        padding-left: 2em;
+        li{
+            padding: .5em 0;
+            cursor: pointer;
+        }
+
+        li:after {
+            content: '';
+            display: block;
+            height: 1px;
+            width: 0;
+            background: transparent;
+            transition: width .3s ease, background-color .3s ease;
+        }
+        li:hover:after {
+            width: 100%;
+            background: $main-dark;
+        }
+        
+    }
+
+    @include flexy($dir:column, $align:start);
+}
