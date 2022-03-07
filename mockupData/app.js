@@ -45,3 +45,4 @@ const populateDB = async () => {
 
 
 btn.addEventListener('click',populateDB);
+

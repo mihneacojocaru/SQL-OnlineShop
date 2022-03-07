@@ -13,6 +13,8 @@ export default class ViewHome{
         this.shoppingCart();
         this.addToLocalStorage();
         this.populateCart();
+        this.changeItemQuantity();
+        this.changeBasketNumber();
     }
 
   
@@ -136,8 +138,11 @@ export default class ViewHome{
     shoppingCart = () => {
         let cart = document.querySelector('.shopping-cart');
         let cartToggleBtn = document.querySelector('#cartToggleBtn');
-        cart.innerHTML += this.shoppingCartContent();
         
+        cart.innerHTML += this.shoppingCartContent();
+        let helper = new Helper();
+        let totalCart = document.getElementById('totalCart');
+            totalCart.textContent = `Total: ${helper.getTotalCartAmmount()}€`;
 
         cartToggleBtn.addEventListener('click', ()=> {
             cart.classList.toggle('hide-element');
@@ -146,7 +151,7 @@ export default class ViewHome{
 
     shoppingCartContent = () => {
         return `
-                <span class="cart-item-no">1 product in your cart</span>
+                <span class="cart-item-no">0 product in your cart</span>
                 <div class="products cart-products"></div>
                 <div class="spacer"></div>
                 <div class="total-info">
@@ -167,8 +172,8 @@ export default class ViewHome{
                 <span>${item.price*item.quantity}€</span>
             </div>
             <div class="right-item-mini">
-                <input min="1" value="${item.quantity}" type="number">
-                <span>X</span>
+                <input id="item-quantity-input" min="1" value="${item.quantity}" data-id="${item.id}" type="number">
+                <span data-id="${item.id}">X</span>
             </div>
         </div>
     </div>`;
@@ -183,6 +188,29 @@ export default class ViewHome{
         },100);
     }
 
+    changeItemQuantity = () => {
+        let cart = document.querySelectorAll('#item-quantity-input');
+        cart.forEach( e => {
+            e.addEventListener('change', this.eventHandler);
+        });
+    }
+
+    changeBasketNumber = () => {
+        let miniCard = document.querySelectorAll('.mini-card');
+        let basket = document.getElementById('cartToggleBtn');
+        let cartItemNo = document.querySelector('.cart-item-no');
+        if(miniCard == null){
+            basket.setAttribute('data-after', '0');
+        }else{
+            basket.setAttribute('data-after', miniCard.length);
+            if(miniCard.length == 1){
+                cartItemNo.innerHTML = `${miniCard.length} product in your cart`;
+            }else{
+                cartItemNo.innerHTML = `${miniCard.length} products in your cart`;
+            }
+        }
+    }
+
     eventHandler = e => {
         let obj = e.target;
         let item = {}
@@ -195,15 +223,33 @@ export default class ViewHome{
             item.quantity = 1;
             let helper = new Helper();
             helper.addToCart(item);
+            window.location.reload();
+        }else if(obj.id = 'item-quantity-input'){
+            let helper = new Helper();
+            helper.updateLocalStorage(obj.dataset.id,parseInt(obj.value));
+            let currentPrice;
+            let currentQuantity = parseInt(obj.value);
+            let newPrice = obj.parentElement.parentElement.children[0].children[1];
+            helper.list.forEach(e => {
+                if(e.id == obj.dataset.id){
+                    currentPrice = e.price;
+                }
+            });
+            newPrice.textContent = `${currentPrice * currentQuantity}€`;
+            let totalCart = document.getElementById('totalCart');
+            totalCart.textContent = `Total: ${helper.getTotalCartAmmount()}€`;
         }
     }
 
     populateCart = () => {
         let cart = document.querySelector('.cart-products');
         const helper = new Helper();
-        helper.list.forEach( e => {
-            cart.innerHTML += this.miniCard(e);
-        });
+        if(helper.list !== null){
+            helper.list.forEach( e => {
+                cart.innerHTML += this.miniCard(e);
+            });
+        }
+
     }
 
 

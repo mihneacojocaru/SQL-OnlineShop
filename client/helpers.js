@@ -21,24 +21,54 @@ export default class Helper {
         this.save();
     };
 
+    getTotalCartAmmount = () => {
+        let pricesArray = [];
+        let quantityArray = [];
+        let sum = "0,00";
+        if(this.list != null){
+            this.list.forEach( e =>{
+                pricesArray.push(e.price);
+                quantityArray.push(e.quantity);
+            });
+    
+            let sumArray = pricesArray.map((e,index) => e * quantityArray[index]);
+            
+            let sum = sumArray.reduce((a,b)=>a+b);
+    
+            return sum;
+        }
+        return sum;
+    }
+
     //updateCart
 
-    updateLocalStorage = (obj) => { };
+    updateLocalStorage = (id,quantity) => {
+        if(this.list !== null){
+            this.list.forEach( e => {
+                if(e.id == id){
+                    e.quantity = quantity;
+                }
+            }); 
+            this.save();
+        };
+
+    };
 
     //functie ce verifica daca in lista de produse exista produsul cu id dat is daca da sa returneze pozitia , alfel sa returneze -1
 
     checkProduct = (id) => {
-        let stare = -1;
+        let state = -1;
         this.list.forEach((element, index) => {
             if (id == element.id) {
-                stare = index;
+                state = index;
             }
         });
-        return stare;
+        return state;
     };
 
     save = () => {
         localStorage.removeItem("OnlineShopTM");
         localStorage.setItem("OnlineShopTM", JSON.stringify(this.list));
     };
+
 }
