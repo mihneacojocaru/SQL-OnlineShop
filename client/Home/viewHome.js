@@ -15,6 +15,7 @@ export default class ViewHome{
         this.populateCart();
         this.changeItemQuantity();
         this.changeBasketNumber();
+        this.deleteFromCart();
     }
 
   
@@ -173,7 +174,7 @@ export default class ViewHome{
             </div>
             <div class="right-item-mini">
                 <input id="item-quantity-input" min="1" value="${item.quantity}" data-id="${item.id}" type="number">
-                <span data-id="${item.id}">X</span>
+                <span id="removeMiniCard" data-id="${item.id}">X</span>
             </div>
         </div>
     </div>`;
@@ -211,6 +212,17 @@ export default class ViewHome{
         }
     }
 
+    deleteFromCart = () => {
+        let xBtn = document.querySelectorAll('#removeMiniCard');
+        let helper = new Helper();
+        xBtn.forEach( e => e.addEventListener('click', ()=>{
+            helper.deleteAfterId(e.dataset.id);
+            this.refreshCart();
+        }));
+        
+    }
+
+
     eventHandler = e => {
         let obj = e.target;
         let item = {}
@@ -223,7 +235,7 @@ export default class ViewHome{
             item.quantity = 1;
             let helper = new Helper();
             helper.addToCart(item);
-            window.location.reload();
+            this.refreshCart();
         }else if(obj.id = 'item-quantity-input'){
             let helper = new Helper();
             helper.updateLocalStorage(obj.dataset.id,parseInt(obj.value));
@@ -238,11 +250,15 @@ export default class ViewHome{
             newPrice.textContent = `${currentPrice * currentQuantity}€`;
             let totalCart = document.getElementById('totalCart');
             totalCart.textContent = `Total: ${helper.getTotalCartAmmount()}€`;
+        }else if(obj.id == 'removeMiniCard'){
+            let helper = new Helper();
+            console.log(helper.list);
         }
     }
 
     populateCart = () => {
         let cart = document.querySelector('.cart-products');
+        cart.innerHTML = '';
         const helper = new Helper();
         if(helper.list !== null){
             helper.list.forEach( e => {
@@ -250,6 +266,16 @@ export default class ViewHome{
             });
         }
 
+    }
+
+    refreshCart = () => {
+        let helper = new Helper();
+        this.populateCart();
+        this.changeItemQuantity();
+        this.changeBasketNumber();
+        let totalCart = document.getElementById('totalCart');
+        totalCart.textContent = `Total: ${helper.getTotalCartAmmount()}€`;
+        this.deleteFromCart();
     }
 
 

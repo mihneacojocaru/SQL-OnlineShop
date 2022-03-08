@@ -40,7 +40,17 @@ export default class Helper {
         return sum;
     }
 
-    //updateCart
+    deleteAfterId = (id) => {
+        if(this.list != null){
+            this.list = this.list.filter(e => e.id != id);
+            if(this.list.length == 0){
+                this.list = null;
+            }
+            this.save();
+        }
+        
+        
+    }
 
     updateLocalStorage = (id,quantity) => {
         if(this.list !== null){
@@ -53,6 +63,8 @@ export default class Helper {
         };
 
     };
+
+
 
     //functie ce verifica daca in lista de produse exista produsul cu id dat is daca da sa returneze pozitia , alfel sa returneze -1
 
