@@ -465,6 +465,14 @@ main .shopping-cart .total-info button {
   border: none;
   color: white;
   padding: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+main .shopping-cart .total-info button:hover {
+  background-color: #FE5768;
+}
+main .shopping-cart .total-info button:active {
+  transform: scale(1.01);
 }
 main .cover-img img {
   margin: 0 auto;
@@ -504,6 +512,9 @@ main .content .card .info .right-item button {
 }
 main .content .card .info .right-item button:hover {
   background-color: #FE5768;
+}
+main .content .card .info .right-item button:active {
+  transform: scale(1.01);
 }
 
 aside {

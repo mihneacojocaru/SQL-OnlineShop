@@ -16,6 +16,7 @@ export default class ViewHome{
         this.changeItemQuantity();
         this.changeBasketNumber();
         this.deleteFromCart();
+        this.onCheckOutClick();
     }
 
   
@@ -158,7 +159,7 @@ export default class ViewHome{
                 <div class="total-info">
                     <span id="totalCart">Total: 0,00€</span>
                     <span>Shipping & taxes are calculated at checkout</span>
-                    <button>Check Out</button>
+                    <button id="checkOutBtn">Check Out</button>
                 </div>
         `;
     }
@@ -250,9 +251,6 @@ export default class ViewHome{
             newPrice.textContent = `${currentPrice * currentQuantity}€`;
             let totalCart = document.getElementById('totalCart');
             totalCart.textContent = `Total: ${helper.getTotalCartAmmount()}€`;
-        }else if(obj.id == 'removeMiniCard'){
-            let helper = new Helper();
-            console.log(helper.list);
         }
     }
 
@@ -278,6 +276,13 @@ export default class ViewHome{
         this.deleteFromCart();
     }
 
+    onCheckOutClick = () => {
+        let checkOutBtn = document.getElementById('checkOutBtn');
+        let helper = new Helper();
+        checkOutBtn.addEventListener('click', ()=>{
+            console.log(helper.list);
+        }); 
+    }
 
     
 }
