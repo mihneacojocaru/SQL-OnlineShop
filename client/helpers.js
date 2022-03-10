@@ -64,8 +64,6 @@ export default class Helper {
 
     };
 
-
-
     //functie ce verifica daca in lista de produse exista produsul cu id dat is daca da sa returneze pozitia , alfel sa returneze -1
 
     checkProduct = (id) => {
@@ -83,4 +81,7 @@ export default class Helper {
         localStorage.setItem("OnlineShopTM", JSON.stringify(this.list));
     };
 
+    emptyLocalStorage = () => {
+        localStorage.removeItem("OnlineShopTM");
+    }
 }

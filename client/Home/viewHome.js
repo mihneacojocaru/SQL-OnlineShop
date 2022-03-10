@@ -277,11 +277,30 @@ export default class ViewHome{
     }
 
     onCheckOutClick = () => {
-        let checkOutBtn = document.getElementById('checkOutBtn');
-        let helper = new Helper();
-        checkOutBtn.addEventListener('click', ()=>{
-            console.log(helper.list);
-        }); 
+        let checkOutBtn = document.getElementById('checkOutBtn');    
+        checkOutBtn.addEventListener('click',this.chekckOutFunctions);
+    }
+
+    chekckOutFunctions = async () => {
+            let helper = new Helper();
+            let data = new Data();
+            let item = {
+                "customer_id":1000,
+                "ammount":helper.list.length,
+                "order_status":"ordered"
+            }
+            let orderDetails = {};
+            let response = await data.addOrder(item);
+            for(let i=0; i<helper.list.length; i++){
+                orderDetails.order_id = response.id;
+                orderDetails.product_id = helper.list[i].id;
+                orderDetails.quantity = helper.list[i].quantity;
+                await data.addOrderDetails(orderDetails);
+            }
+            helper.emptyLocalStorage();
+            this.refreshCart();
+            alert('Thanks for your puchase!');
+            window.location.reload();
     }
 
     
