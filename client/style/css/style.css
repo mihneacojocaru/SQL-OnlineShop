@@ -372,9 +372,16 @@ li {
 
 nav {
   grid-area: nav;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 nav h1 {
   padding-left: 1.8em;
+}
+nav h2 {
+  padding-right: 1.8em;
 }
 
 main {
@@ -459,7 +466,7 @@ main .shopping-cart .total-info span:nth-child(2) {
   font-size: 12px;
   padding-bottom: 30px;
 }
-main .shopping-cart .total-info button {
+main .shopping-cart .total-info .enabled {
   width: 10em;
   background-color: black;
   border: none;
@@ -468,11 +475,29 @@ main .shopping-cart .total-info button {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-main .shopping-cart .total-info button:hover {
+main .shopping-cart .total-info .enabled:hover {
   background-color: #FE5768;
 }
-main .shopping-cart .total-info button:active {
+main .shopping-cart .total-info .enabled:active {
   transform: scale(1.01);
+}
+main .shopping-cart .total-info .disabled {
+  position: relative;
+  background-color: #c2c2c2 !important;
+  cursor: default !important;
+}
+main .shopping-cart .total-info .disabled:hover {
+  background-color: #c2c2c2 !important;
+}
+main .shopping-cart .total-info .disabled:active {
+  transform: scale(1) !important;
+}
+main .shopping-cart .total-info .disabled::after {
+  position: absolute;
+  content: "Please login first to enable checkout!";
+  color: #FE5768;
+  top: 60px;
+  left: 0;
 }
 main .cover-img img {
   margin: 0 auto;
@@ -594,6 +619,34 @@ aside .second-categories li:after {
 aside .second-categories li:hover:after {
   width: 100%;
   background: black;
+}
+
+.login-item {
+  margin: 0 auto;
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+}
+.login-item * {
+  margin: 5px;
+}
+.login-item input {
+  padding: 5px;
+}
+.login-item button {
+  border: none;
+  color: white;
+  background-color: black;
+  padding: 10px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+.login-item button:hover {
+  background-color: #FE5768;
+}
+.login-item button:active {
+  transform: scale(0.99);
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -48,6 +48,15 @@ export default class Data{
         }
     }
 
+    logIn = async (obj) => {
+        try {
+            const response = await this.api("http://localhost:3500/db/v1/onlineStore/customers/login","POST", obj);
+            return response.json();  
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
+
     //+++ PRODUCTS
 
     getProducts = async () => {

@@ -29,3 +29,18 @@ customersRoute.post('/customers', asyncHandler(async(req,res,next)=>{
      const createCustomer = await Customers.create({full_name,email,password,billing_address,default_shipping_address,country,phone});
      return res.status(200).json(createCustomer);
 }));
+
+//--- Authentification check
+
+customersRoute.post('/customers/login', asyncHandler(async (req,res,next)=>{
+    const {username, password} = req.body;
+    const customer = await Customers.findOne({ where: { email: username, password: password } });
+    if (customer === null) {
+        return res.status(404).json('[]');    
+    }else{ 
+        let obj = {}
+        obj.id = customer.id;
+        obj.customer = customer.full_name;
+        return res.status(200).json(obj);
+    }
+}));

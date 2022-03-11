@@ -1,6 +1,7 @@
 export default class Helper {
     constructor() {
         this.list = JSON.parse(localStorage.getItem("OnlineShopTM"));
+        this.loginInfo = JSON.parse(localStorage.getItem('OnlineShopLogin'));
     }
 
     //load
@@ -84,4 +85,19 @@ export default class Helper {
     emptyLocalStorage = () => {
         localStorage.removeItem("OnlineShopTM");
     }
+
+    loggedInUser = (obj) => {
+        this.loginInfo = [];
+        this.loginInfo.push(obj);
+        this.saveUserLogin();
+    }
+
+    saveUserLogin = () => {
+        localStorage.removeItem('OnlineShopLogin');
+        localStorage.setItem('OnlineShopLogin', JSON.stringify(this.loginInfo));
+    }
+
+    deleteLoggedIn = () => {
+        localStorage.removeItem('OnlineShopLogin');
+    };
 }

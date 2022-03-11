@@ -1,5 +1,6 @@
 import Data from "../Data/data.js";
 import Helper from "../helpers.js";
+import Login from "./viewLogin.js";
 
 export default class ViewHome{
     
@@ -17,6 +18,8 @@ export default class ViewHome{
         this.changeBasketNumber();
         this.deleteFromCart();
         this.onCheckOutClick();
+        this.onLoginClick();
+        this.verifyLogin();
     }
 
   
@@ -32,6 +35,7 @@ export default class ViewHome{
     navbar = () => {
         return `<nav>
         <h1>Online Shop &trade;</h1>
+        <h2 id="welcomeMessage">Welcome!</h2>
                 </nav>`;
     }
 
@@ -52,7 +56,9 @@ export default class ViewHome{
             <li>Help/FAQ</li>
             <li>Get In Touch</li>
             <li></li>
-            <li>Login</li>
+            <li id="orderHistory">Order History</li>
+            <li id="loginBtn">LogIn</li>
+            <li id="logoutBtn">LogOut</li>
         </ul>
     </aside>
                 `;
@@ -159,7 +165,7 @@ export default class ViewHome{
                 <div class="total-info">
                     <span id="totalCart">Total: 0,00€</span>
                     <span>Shipping & taxes are calculated at checkout</span>
-                    <button id="checkOutBtn">Check Out</button>
+                    <button id="checkOutBtn" class="enabled">Check Out</button>
                 </div>
         `;
     }
@@ -285,7 +291,7 @@ export default class ViewHome{
             let helper = new Helper();
             let data = new Data();
             let item = {
-                "customer_id":1000,
+                "customer_id":helper.loginInfo[0].id,
                 "ammount":helper.list.length,
                 "order_status":"ordered"
             }
@@ -301,6 +307,41 @@ export default class ViewHome{
             this.refreshCart();
             alert('Thanks for your puchase!');
             window.location.reload();
+    }
+
+
+    onLoginClick = () => {
+        let loginBtn = document.getElementById('loginBtn');
+        let logoutBtn = document.getElementById('logoutBtn');
+
+        loginBtn.addEventListener('click', ()=>{
+            let loginPage = new Login();
+        });
+
+        logoutBtn.addEventListener('click', ()=>{
+            let helper = new Helper();
+            helper.deleteLoggedIn();
+            window.location.reload();
+        })
+    }
+
+    verifyLogin = () => {
+        let helper = new Helper();
+        let checkOutBtn = document.getElementById('checkOutBtn');
+        let loginBtn = document.getElementById('loginBtn');
+        let logoutBtn = document.getElementById('logoutBtn');
+        let orderHistory = document.getElementById('orderHistory');
+        if(helper.loginInfo == null){
+            checkOutBtn.disabled = true;
+            checkOutBtn.className += ' disabled';
+            logoutBtn.style.display = 'none';
+            orderHistory.style.display = 'none';
+        }else{  
+            let welcome = document.getElementById('welcomeMessage');
+            let name = helper.loginInfo[0].customer.split(' ')[0];
+            welcome.innerHTML = `Welcome, ${name}!`;
+            loginBtn.style.display = 'none';
+        }
     }
 
     

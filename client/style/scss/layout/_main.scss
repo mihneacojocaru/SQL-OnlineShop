@@ -80,7 +80,7 @@ main{
                 }
             }
 
-            button{
+            .enabled{
                 width: 10em;
                 background-color: $main-dark;
                 border: none;
@@ -93,6 +93,27 @@ main{
                 }
                 &:active{
                     transform: scale(1.01);
+                }
+            }
+
+            .disabled{
+                position: relative;
+                background-color: $main-gray !important;
+                cursor: default !important;
+                &:hover{
+                    background-color: $main-gray !important;
+                }
+                &:active{
+                    transform: scale(1) !important;
+                }
+
+                &::after{
+                    position: absolute;
+                    content: "Please login first to enable checkout!";
+                    color: $main-red;
+                    top: 60px;
+                    left: 0;
+
                 }
             }
         }
