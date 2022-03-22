@@ -43,3 +43,10 @@ appRoute.get('/updateOrderDetId', asyncHandler(async(req,res,next)=>{
     return res.status(200).json(result);
 }));
 
+
+//--- Custom Queries 
+
+appRoute.get('/shoppingHistory', asyncHandler(async(req,res,next)=>{
+    const result = await sequelize.query("select customer_id, product_id, product_name, quantity, order_status from Orders, OrderDetails, Products where Orders.id = OrderDetails.order_id and product_id=Products.id and customer_id = 1000;");
+    return res.status(200).json(result);
+}))

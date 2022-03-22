@@ -1,0 +1,28 @@
+-- select name ,count(*) as 'total'
+-- from Users join Posts P on Users.id = P.userId
+-- group by name
+-- order by total desc;
+
+drop database online_shop_SQL;
+create database online_shop_SQL;
+
+use online_shop_SQL;
+
+update Customers set id = 1000 where id = 1;
+update Products set id = 100 where id = 1;
+update OrderDetails set id = 500 where id = 1;
+update Orders set id = 300 where id = 1;
+
+update Products
+set image_url = 'https://cdn.shopify.com/s/files/1/0584/0617/4905/products/p18_1_1280x.jpg?v=1625561243'
+where id = 3003;
+
+update Products
+set product_name = 'Jeans'
+where id = 3002;
+
+delete from Orders where id = 5023;
+
+update Customers
+set password = '1234'
+where id = 1003;
